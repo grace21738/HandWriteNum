@@ -10,14 +10,7 @@ mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 # 將pixel值轉成float，同時做normalize
 x_train, x_test = x_train/255.0, x_test/255.0
-'''
-for i in [0, 1, 2]:
-    # 設置 28*28 pixel
-    curr_img = np.reshape(x_train[i, :], (28, 28))
-    plt.imshow(curr_img, cmap=plt.get_cmap('gray'))
-    plt.title("Training Data Number is " + str(y_train[i]))
-    plt.show()
-'''
+
 # MODEL
 # keras 的 Sequential 把每層串起來
 model = tf.keras.models.Sequential([
@@ -27,7 +20,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(256, activation='relu'),
     #訓練週期中隨機丟棄20%神經元
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(20, activation='softmax'),
+    tf.keras.layers.Dense(0, activation='softmax'),
 ])
 
 # MODEL COMPILE
@@ -39,7 +32,7 @@ model.compile(optimizer='adam',
 history = model.fit(x_train, y_train, epochs=5)
 # evalutate test data
 test_history = model.evaluate(x_test, y_test, verbose=2)
-'''
+
 plt.title('Training Model Accuracy')
 plt.plot(history.history['acc'], 'r')
 plt.show()
@@ -57,4 +50,3 @@ X2 = x_test[115,:,:]
 plt.title('Test Loss ( prediction: ' + str(predictions[115]) + ', actual: ' + str(y_test[115])+ ')')
 plt.imshow(X2.reshape(28,28))
 plt.show()
-'''
